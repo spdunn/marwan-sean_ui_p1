@@ -15,6 +15,7 @@ export function ViewComponent(viewName) {
     this.injectTemplate = function (cb) {
         if (templateHolder) {
             env.rootDiv.innerHTML = templateHolder;
+            cb();
         } else {
             fetch(this.viewMetadata.templateUri)
                 .then(resp => resp.text())
@@ -25,6 +26,7 @@ export function ViewComponent(viewName) {
                 })
                 .catch(err => console.error(err));
         }
+        // Can't callback here as fetch is async
     }
 
     this.injectStylesheet = function() {
