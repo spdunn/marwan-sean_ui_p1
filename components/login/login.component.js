@@ -77,10 +77,11 @@ function LoginComponent() {
 
     this.render = function() {
         LoginComponent.prototype.injectTemplate(() => {
+            console.log('LoginComponent template loaded');
 
             usernameFieldElement = document.getElementById('login-form-username');
-            passwordFieldElement = document.getElementById('login-form-password');;
-            loginButtonElement = document.getElementById('login-form-button');;
+            passwordFieldElement = document.getElementById('login-form-password');
+            loginButtonElement = document.getElementById('login-form-button');
             errorMessageElement = document.getElementById('error-msg');
 
             usernameFieldElement.addEventListener('keyup', updateUsername);

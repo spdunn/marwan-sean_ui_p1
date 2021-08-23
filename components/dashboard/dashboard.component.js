@@ -20,9 +20,10 @@ function DashboardComponent() {
 
         DashboardComponent.prototype.injectStylesheet();
         DashboardComponent.prototype.injectTemplate(() => {
+            console.log('DashboardComponent template loaded');
 
-            welcomeUserElement = document.getElementById('welcome-user');
-            welcomeUserElement.innerText = currentUsername;
+            // welcomeUserElement = document.getElementById('welcome-user');
+            // welcomeUserElement.innerText = currentUsername;
 
             // Append path to end of web address
             // window.history.pushState('dashboard', 'Dashboard', '/dashboard');
