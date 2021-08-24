@@ -87,7 +87,7 @@ function RegisterComponent() {
         let newUser = {
             firstName: firstname,
             lastName: lastname,
-            // email: email,
+            email: email,
             username: username,
             password: password
         }
