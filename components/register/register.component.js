@@ -108,7 +108,8 @@ function RegisterComponent() {
                 return resp.json();
             })
             .then(payload => {
-                if (status === 400) {
+                // Servlet will return 201 if transaction was acknowledge, otherwise display error
+                if (status != 201) {
                     updateErrorMessage(payload.message);
                 } else {
                     // console.log(payload);
