@@ -51,26 +51,26 @@ function LoginComponent() {
         let status = 0;
 
         // TODO Send to LoginServlet
-        // fetch(`${env.apiUrl}/auth`, {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify(credentials)
-        // })
-        //     .then(resp => {
-        //         status = resp.status;
-        //         return resp.json();
-        //     })
-        //     .then(payload => {
-        //         if (status === 401) {
-        //             updateErrorMessage(payload.message);
-        //         } else {
-        //             state.authUser = payload;
-        //             router.navigate('/dashboard');
-        //         }
-        //     })
-        //     .catch(err => console.error(err));
+        fetch(`${env.apiUrl}/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(credentials)
+        })
+            .then(resp => {
+                status = resp.status;
+                return resp.json();
+            })
+            .then(payload => {
+                if (status === 401) {
+                    updateErrorMessage(payload.message);
+                } else {
+                    state.authUser = payload;
+                    router.navigate('/dashboard');
+                }
+            })
+            .catch(err => console.error(err));
 
     }
 

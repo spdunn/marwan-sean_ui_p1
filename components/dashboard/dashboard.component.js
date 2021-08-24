@@ -9,7 +9,7 @@ function DashboardComponent() {
 
     this.render = function() {
 
-        console.log(state);
+        // console.log(state);
 
         if (!state.authUser) {
             router.navigate('/login');
