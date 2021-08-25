@@ -74,8 +74,13 @@ function LoginComponent() {
 
     }
 
+    function navigateToRegisterView() {
+        console.log("navigateToRegister Invoked!")
+        router.navigate('/register');
+    }
 
     this.render = function() {
+        LoginComponent.prototype.injectStylesheet();
         LoginComponent.prototype.injectTemplate(() => {
             console.log('LoginComponent template loaded');
 
@@ -88,11 +93,13 @@ function LoginComponent() {
             passwordFieldElement.addEventListener('keyup', updatePassword);
             loginButtonElement.addEventListener('click', login);
 
+            document.getElementById('nav-to-register-footer').addEventListener('click', navigateToRegisterView);
+
+
             // Append path to the end of the web address
             // window.history.pushState('login', 'Login', '/login');
 
         });
-        LoginComponent.prototype.injectStylesheet();
     }
 
 }

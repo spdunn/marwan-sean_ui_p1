@@ -28,7 +28,7 @@ const router = new Router(routes);
 
 window.onload = () => {
     navbarComponent.render();
-    router.navigate('/register');
+    router.navigate('/login');
 }
 
 export default router;

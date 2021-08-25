@@ -11,6 +11,16 @@
     margin: auto;
 }
 
+.card-footer {
+    background: none;
+}
+
+.anchor-link {
+    color: #0000EE;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
 #error-msg-container {
     margin: auto;
 }
