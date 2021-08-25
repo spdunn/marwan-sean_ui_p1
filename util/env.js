@@ -8,7 +8,7 @@ export default {
     // Bookstore API
     // 'http://bookstoreapi-env.eba-ysp2j7xq.us-east-1.elasticbeanstalk.com'
     // External API
-    // 'http://marwanseanschoolapi-env.eba-kjjyzjet.us-east-1.elasticbeanstalk.com'
+    'http://marwanseanschoolapi-env.eba-kjjyzjet.us-east-1.elasticbeanstalk.com'
     // External API https
-    'https://marwanseanschoolapi-env.eba-kjjyzjet.us-east-1.elasticbeanstalk.com'
+    // 'https://marwanseanschoolapi-env.eba-kjjyzjet.us-east-1.elasticbeanstalk.com'
 }
