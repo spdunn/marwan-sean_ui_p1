@@ -96,7 +96,7 @@ function RegisterComponent() {
 
         console.log(newUser);
         // Send to RegisterServlet
-        fetch(`${env.apiUrl}/register`, {
+        fetch(`${env.apiUrl}/users`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
