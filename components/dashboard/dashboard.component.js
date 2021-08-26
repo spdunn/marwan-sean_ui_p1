@@ -12,6 +12,7 @@ function DashboardComponent() {
     let emailElement;
     let scheduleElement;
 
+    let user;
     let firstName = '';
     let lastName = '';
     let email = '';
@@ -39,7 +40,7 @@ function DashboardComponent() {
 
 
             // Send to UserServlet
-            fetch(`${env.apiUrl}/users/${state.authUser.id}`, {
+            fetch(`${env.apiUrl}/users?id=${state.authUser.id}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -54,16 +55,18 @@ function DashboardComponent() {
                     if (status === 401) {
                         updateErrorMessage(payload.message);
                     } else {
-                        firstName = payload.firstName;
-                        console.log(firstName);
-                        lastName = payload.lastName;
-                        console.log(lastName);
-                        email = payload.email;
-                        console.log(email);
+                        user = payload;
+                        console.log(user);
+                        // firstName = payload.firstName;
+                        // console.log(firstName);
+                        // lastName = payload.lastName;
+                        // console.log(lastName);
+                        // email = payload.email;
+                        // console.log(email);
                         // schedule = payload.schedule;
                         // console.log(schedule);
-                        nameElement.innerText = firstName + lastName;
-                        emailElement.innerText = email;
+                        nameElement.innerText = user.firstName + ' ' + user.lastName;
+                        if (user.email) emailElement.innerText = user.email;
                         // scheduleElement.innerText = schedule;
                         console.log(state);
                         
