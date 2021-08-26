@@ -51,11 +51,11 @@ function LoginComponent() {
         let status = 0;
         let token = 0;
 
-        // TODO Send to LoginServlet
+        // Send to LoginServlet
         fetch(`${env.apiUrl}/login`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(credentials)
         })
