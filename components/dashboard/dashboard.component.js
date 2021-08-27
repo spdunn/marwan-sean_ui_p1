@@ -9,8 +9,6 @@ function DashboardComponent() {
 
     this.render = function() {
 
-        console.log(state);
-
         if (!state.authUser) {
             router.navigate('/login');
             return;
@@ -20,7 +18,6 @@ function DashboardComponent() {
 
         DashboardComponent.prototype.injectStylesheet();
         DashboardComponent.prototype.injectTemplate(() => {
-            console.log('DashboardComponent template loaded');
 
             // welcomeUserElement = document.getElementById('welcome-user');
             // welcomeUserElement.innerText = currentUsername;

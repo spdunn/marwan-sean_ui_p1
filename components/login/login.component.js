@@ -16,12 +16,10 @@ function LoginComponent() {
 
     function updateUsername(e) {
         username = e.target.value;
-        console.log(username);
     }
 
     function updatePassword(e) {
         password = e.target.value;
-        console.log(password);
     }
 
     function updateErrorMessage(errorMessage) {
@@ -62,9 +60,7 @@ function LoginComponent() {
             .then(resp => {
                 // Get JWT
                 token = resp.headers.get('Authorization');
-                console.log(token);
                 state.token = token;
-                console.log(state);
                 status = resp.status;
                 return resp.json();
             })
@@ -73,7 +69,6 @@ function LoginComponent() {
                     updateErrorMessage(payload.message);
                 } else {
                     state.authUser = payload;
-                    console.log(state);
                     router.navigate('/dashboard');
                 }
             })
@@ -82,14 +77,12 @@ function LoginComponent() {
     }
 
     function navigateToRegisterView() {
-        console.log("navigateToRegister Invoked!")
         router.navigate('/register');
     }
 
     this.render = function() {
         LoginComponent.prototype.injectStylesheet();
         LoginComponent.prototype.injectTemplate(() => {
-            console.log('LoginComponent template loaded');
 
             usernameFieldElement = document.getElementById('login-form-username');
             passwordFieldElement = document.getElementById('login-form-password');
