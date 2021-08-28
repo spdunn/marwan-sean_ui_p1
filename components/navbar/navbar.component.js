@@ -48,6 +48,7 @@ function NavbarComponent() {
             document.getElementById('nav-to-login').addEventListener('click', navigateToView);
             document.getElementById('nav-to-register').addEventListener('click', navigateToView);
             document.getElementById('nav-to-dashboard').addEventListener('click', navigateToView);
+            document.getElementById('nav-to-courses').addEventListener('click', navigateToView);
         });
     }
 

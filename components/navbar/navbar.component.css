@@ -2,6 +2,10 @@ div > input {
     margin-bottom: .6rem;
 }
 
+.nav-item {
+    cursor: pointer;
+}
+
 .dropdown-menu {
     padding: 0;
     overflow: hidden;
