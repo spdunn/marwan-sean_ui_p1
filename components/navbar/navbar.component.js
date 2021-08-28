@@ -1,4 +1,5 @@
 import router from "../../app.js";
+import state from "../../util/state.js";
 
 const NAVBAR_ELEMENT = document.getElementById('navbar');
 
@@ -6,6 +7,8 @@ function NavbarComponent() {
 
     let templateHolder = '';
     let frag = 'components/navbar/navbar.component';
+
+    let logoutNavElement;
 
     function injectTemplate(callback) {
 
@@ -41,16 +44,26 @@ function NavbarComponent() {
         console.log('Logging you out!');
         localStorage.clear();
         sessionStorage.clear();
+        logoutNavElement.setAttribute('hidden', 'true');
         router.navigate('/login');
     }
 
     this.render = function() {
         injectStylesheet();
         injectTemplate(() => {
-            document.getElementById('logout').addEventListener('click', logout);
             document.getElementById('nav-to-login').addEventListener('click', navigateToView);
             document.getElementById('nav-to-register').addEventListener('click', navigateToView);
             document.getElementById('nav-to-dashboard').addEventListener('click', navigateToView);
+
+            logoutNavElement = document.getElementById('logout');
+            logoutNavElement.addEventListener('click', logout);
+
+            if(state.authUser) {
+                logoutNavElement.removeAttribute('hidden');
+            } else {
+                logoutNavElement.setAttribute('hidden', 'true');
+            }
+
         });
     }
 
