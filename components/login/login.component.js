@@ -9,6 +9,7 @@ function LoginComponent() {
     let usernameFieldElement;
     let passwordFieldElement;
     let loginButtonElement;
+    let rememberMeCheckbox;
     let errorMessageElement;
 
     let username = '';
@@ -30,6 +31,10 @@ function LoginComponent() {
             errorMessageElement.setAttribute('hidden', 'true');
             errorMessageElement.innerText = '';
         }
+    }
+
+    function navigateToRegisterView() {
+        router.navigate('/register');
     }
 
     function login() {
@@ -61,6 +66,10 @@ function LoginComponent() {
                 // Get JWT
                 token = resp.headers.get('Authorization');
                 state.token = token;
+                sessionStorage.setItem('token', JSON.stringify(token));
+                if(rememberMeCheckbox.checked) {
+                    localStorage.setItem('token', JSON.stringify(token));
+                }
                 status = resp.status;
                 return resp.json();
             })
@@ -69,15 +78,15 @@ function LoginComponent() {
                     updateErrorMessage(payload.message);
                 } else {
                     state.authUser = payload;
+                    sessionStorage.setItem('user', JSON.stringify(payload));
+                    if(rememberMeCheckbox.checked) {
+                        localStorage.setItem('user', JSON.stringify(payload));
+                    }
                     router.navigate('/dashboard');
                 }
             })
             .catch(err => console.error(err));
 
-    }
-
-    function navigateToRegisterView() {
-        router.navigate('/register');
     }
 
     this.render = function() {
@@ -88,6 +97,7 @@ function LoginComponent() {
             passwordFieldElement = document.getElementById('login-form-password');
             loginButtonElement = document.getElementById('login-form-button');
             errorMessageElement = document.getElementById('error-msg');
+            rememberMeCheckbox = document.getElementById('remember-me-checkbox');
 
             usernameFieldElement.addEventListener('keyup', updateUsername);
             passwordFieldElement.addEventListener('keyup', updatePassword);

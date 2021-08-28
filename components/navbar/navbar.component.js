@@ -39,6 +39,9 @@ function NavbarComponent() {
 
     function logout() {
         console.log('Logging you out!');
+        localStorage.clear();
+        sessionStorage.clear();
+        router.navigate('/login');
     }
 
     this.render = function() {
