@@ -2,6 +2,7 @@ import navbarComponent from './components/navbar/navbar.component.js';
 import loginComponent from './components/login/login.component.js';
 import registerComponent from './components/register/register.component.js';
 import dashboardComponent from './components/dashboard/dashboard.component.js';
+import coursesComponent from './components/courses/courses.component.js';
 
 import { Router } from "./util/router.js";
 
@@ -20,6 +21,10 @@ let routes = [
     {
         path: '/dashboard',
         component: dashboardComponent
+    },
+    {
+        path: '/courses',
+        component: coursesComponent
     }
 
 ];
