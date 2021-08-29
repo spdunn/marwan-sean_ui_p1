@@ -144,35 +144,57 @@ function CoursesComponent() {
 
     async function addToSchedule() {
         // Send fetch to Users Patch with currentUser and currentCourse
-        currentCourseHeader = {
-            courseDept: `${currentCourse.deptShort}`,
-            courseNo: `${currentCourse.courseNo}`,
-            sectionNo: `${currentCourse.sectionNo}`,
-            meetingTimes: `${currentCourse.meetingTimes}`
-        }
-        console.log(currentCourseHeader);
-        // authUser.schedule.append()
-        // try {
-        //     let resp = await fetch(`${env.apiUrl}/users?id=${state.authUser.id}`, {
-        //         method: 'PATCH',
-        //         headers: {
-        //             'Authorization': `${state.token}`
-        //         },
-        //         body: JSON.stringify(newCourse)
-        //     });
-        //     let payload = await resp.json();
-        //     if (resp.status != 200) {
-        //         console.log('ERroR');
-        //         createModalError.removeAttribute('hidden');
-        //         createModalError.style.color = 'red';
-        //         createModalError.innerText = 'ERROR: ' + payload.message;
-        //         return;
-        //     } 
-        // } catch (error) {
-        //     console.log(error);            
-        //     return;
+        // currentCourseHeader = {
+        //     courseDept: `${currentCourse.deptShort}`,
+        //     courseNo: `${currentCourse.courseNo}`,
+        //     sectionNo: `${currentCourse.sectionNo}`,
+        //     meetingTimes: `${currentCourse.meetingTimes}`
         // }
-        // // TODO: Currently sends user back to home, possibly even refresh session?
+        // console.log(currentCourseHeader);
+        // authUser.schedule.push()
+        
+        // Get Current User (For Schedule)
+        let currentUser = {};
+        try {
+            let currentUserResp = await fetch(`${env.apiUrl}/users?id=${state.authUser.id}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `${state.token}`
+                }
+            });
+            currentUser = await currentUserResp.json();
+        } catch (error) {
+            console.log(error);            
+            return;
+        }
+        let schedule = currentUser.schedule;
+        schedule.push(`${currentCourse.id}`);
+        let updatedUser = {
+            id: state.authUser.id,
+            schedule: schedule
+        }
+        console.log(JSON.stringify(updatedUser));
+        try {
+            let resp = await fetch(`${env.apiUrl}/users?id=${state.authUser.id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Authorization': state.token
+                },
+                body: JSON.stringify(updatedUser)
+            });
+            let payload = await resp.json();
+            if (resp.status != 200) {
+                console.log('ERroR');
+                createModalError.removeAttribute('hidden');
+                createModalError.style.color = 'red';
+                createModalError.innerText = 'ERROR: ' + payload.message;
+                return;
+            } 
+        } catch (error) {
+            console.log(error);            
+            return;
+        }
+        // TODO: Currently sends user back to home, possibly even refresh session?
         // location.reload(true);
     }
 
