@@ -2,6 +2,9 @@
     <div class="form-signin" >
         <h1 id="catalog-heading" class="h3 mb-3 fw-normal">Course Catalog</h1>
 
+            <!-- Create Modal Button -->
+        <button type="button" id="create-modal-button" data-bs-toggle="modal" data-bs-target="#createModal">Create New Course</button>
+
         <div id="error-msg-container">
             <p hidden id="error-msg" class="alert alert-danger"></p>
         </div>
@@ -44,8 +47,6 @@
         </table>
 
     </div>
-
-    <button type="button" data-bs-toggle="modal" data-bs-target="#createModal">Launch modal</button>
 
     <!-- CreateModal -->
     <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
@@ -228,6 +229,25 @@
             <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             <button id="deleteButton" type="button" class="btn btn-primary">Confirm</button>
+            </div>
+        </div>
+        </div>
+    </div>
+    
+    <!-- ConfirmScheduleModal -->
+    <div class="modal fade" id="scheduleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 id="scheduleModalTitle" class="modal-title">Are you sure you want to add this course to your schedule?</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="scheduleModalBody" class="modal-body">
+            
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button id="scheduleButton" type="button" class="btn btn-primary">Confirm</button>
             </div>
         </div>
         </div>
