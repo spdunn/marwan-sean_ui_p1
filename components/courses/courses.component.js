@@ -17,18 +17,14 @@ function CoursesComponent() {
     let catalogTableElement;
     let catalogTableHeadingElement;
     let catalogTableBodyElement;
+    let submitButtonElement;
     let errorMessageElement;
-    let courseList;
+    let modalTitleElement;
+    let modalBodyElement;
+    let modalButtonElement;
 
-    function updateErrorMessage(errorMessage) {
-        if (errorMessage) {
-            errorMessageElement.removeAttribute('hidden');
-            errorMessageElement.innerText = errorMessage;
-        } else {
-            errorMessageElement.setAttribute('hidden', 'true');
-            errorMessageElement.innerText = '';
-        }
-    }
+    let courseList;
+    let selectedCourses = [];
 
     function deserializeMeetingTimes(cellValue) {
         var tempObject = cellValue;                    
@@ -100,21 +96,83 @@ function CoursesComponent() {
                     else if (cellField == 'prerequisites') {
                         cell.id = 'prerequisites';
                         cellValue = deserializePrerequisites(cellValue);
-                    }
-                    console.log(cellValue);
-                    // cellValue = JSON.stringify(cellValue);
-                    // var tempObject = JSON.parse(cellValue);
-                    
-                }
-
-                
+                    }                    
+                }                
                 cell.appendChild(document.createTextNode(cellValue));
                 row.appendChild(cell);
 
             }
+
+            var checkbox = document.createElement("INPUT"); //Added for checkbox
+            checkbox.type = "checkbox"; //Added for checkbox
+            checkbox.id = element['id'];
+            checkbox.addEventListener('change', updateSubmitButton);
+            row.appendChild(checkbox);
+
             catalogTableBodyElement.appendChild(row);
 
         });
+    }
+    
+    function updateErrorMessage(errorMessage) {
+        if (errorMessage) {
+            errorMessageElement.removeAttribute('hidden');
+            errorMessageElement.innerText = errorMessage;
+        } else {
+            errorMessageElement.setAttribute('hidden', 'true');
+            errorMessageElement.innerText = '';
+        }
+    }
+
+    function updateSubmitButton(e) {
+        selectedCourses = [];
+        var inputElements = document.getElementsByTagName("input");
+        var checked = false;
+        for (var i = 0; i < inputElements.length; i++) {
+            if (inputElements[i].type == "checkbox") {
+                if (inputElements[i].checked) {
+                    checked = true;
+                    selectedCourses.push(inputElements[i].id);
+                }
+            }
+        }
+
+        modalTitleElement.innerText = 'Are you sure you want to delete ';
+        if (checked) {
+            submitButtonElement.style.display = "block";
+            submitButtonElement.innerText = "Delete Courses";            
+            modalTitleElement.innerText += `${selectedCourses.length}` + ' course(s)?';
+            modalBodyElement.innerText = selectedCourses;
+
+        }
+        else {
+            submitButtonElement.style.display = "none";
+            submitButtonElement.innerText = "";
+            modalBodyElement.innerText = '';
+        }
+    }
+
+    async function deleteCourses() {
+        // fetch list of courses in database
+        try {
+            let resp = await fetch(`${env.apiUrl}/courses`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `${state.token}`
+                }
+            })            
+            let payload = await resp.json();
+            if (payload.statusCode === 401) {
+                modalBodyElement.style.color = 'red';
+                modalBodyElement.innerText = 'ERROR: ' + payload.message;
+                return;
+            } 
+        } catch (error) {
+            console.log(error);            
+            return;
+        }
+        // TODO: Currently sends user back to home, possibly even refresh session?
+        location.reload(true);
     }
 
     this.render = function() {
@@ -124,7 +182,18 @@ function CoursesComponent() {
             catalogTableElement = document.getElementById('catalog-table');
             catalogTableHeadingElement = document.getElementById('catalog-table-heading');
             catalogTableBodyElement = document.getElementById('catalog-table-body');
+            submitButtonElement = document.getElementById('submit-course-button')
             errorMessageElement = document.getElementById('error-msg-container');
+
+            modalTitleElement = document.getElementById('confirmModalTitle');
+            modalBodyElement = document.getElementById('confirmModalBody');
+            modalButtonElement = document.getElementById('deleteButton');
+
+            submitButtonElement.onclick = function() {
+                updateSubmitButton();
+                modalBodyElement.style.color = 'black';
+            }
+            modalButtonElement.addEventListener('click', deleteCourses);
 
             initializeTable();
         })

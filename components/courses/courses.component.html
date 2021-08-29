@@ -19,6 +19,7 @@
                 <col span="1" style="width: 14.5%;">
                 <col span="1" style="width: 14.5%;">
                 <col span="1" style="width: 14.5%;">
+                <col span="1" style="width: 4%;">
              </colgroup>
 
             <thead>
@@ -34,11 +35,35 @@
                     <td value="description">Description</td>
                     <td id="meetingTimes" value="meetingTimes">Meeting Times</td>
                     <td id="prerequisites" value="prerequisites">Prerequisites</td>
+                    <td id="selector"></td>
                 </tr>
             </thead>
             <tbody id="catalog-table-body">
 
             </tbody>
         </table>
+
+    </div>
+
+    <!-- Button trigger modal -->
+    <button id="submit-course-button" type="button" class="w-100 btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal"></button>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 id="confirmModalTitle" class="modal-title">Are you sure you want to delete </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="confirmModalBody" class="modal-body">
+            
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button id="deleteButton" type="button" class="btn btn-primary">Confirm</button>
+            </div>
+        </div>
+        </div>
     </div>
 </div>
