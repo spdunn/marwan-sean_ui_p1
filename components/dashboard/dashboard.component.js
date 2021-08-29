@@ -6,6 +6,17 @@ import router from '../../app.js';
 DashboardComponent.prototype = new ViewComponent('dashboard');
 function DashboardComponent() {
 
+    let dashboardHeaderName;
+    let dashboardHeaderRole;
+
+    let errorMsg;
+    let warnMsg;
+    let infoMsg;
+
+    let dashboardBody;
+    let studentDashFrag;
+    let facultyDashFrag;
+
     let welcomeUserElement;
     let usernameElement;
     let nameElement;
@@ -25,19 +36,19 @@ function DashboardComponent() {
             return;
         }
 
-        let currentUsername = state.authUser.username;
-
         DashboardComponent.prototype.injectStylesheet();
         DashboardComponent.prototype.injectTemplate(() => {            
 
-            welcomeUserElement = document.getElementById('welcome-user');
-            usernameElement = document.getElementById('username-container');
-            nameElement = document.getElementById('name-container');
-            emailElement = document.getElementById('email-container');
-            scheduleElement = document.getElementById('schedule-container');
+            dashboardHeaderName = document.getElementById('dashboard-header-user-name');
+            dashboardHeaderRole = document.getElementById('dashboard-header-user-dashboard');
 
-            welcomeUserElement.innerText += ' ' + currentUsername + '!';
+            errorMsg = document.getElementById('error-msg');
+            warnMsg = document.getElementById('warn-msg');
+            infoMsg = document.getElementById('info-msg');
 
+            dashboardBody = document.getElementById('dashboard-body');
+            studentDashFrag = document.getElementById('student-dash-frag');
+            facultyDashFrag = document.getElementById('faculty-dash-frag');
 
             // Send to UserServlet
             fetch(`${env.apiUrl}/users?id=${state.authUser.id}`, {
@@ -57,30 +68,52 @@ function DashboardComponent() {
                     } else {
                         user = payload;
                         console.log(user);
-                        // firstName = payload.firstName;
-                        // console.log(firstName);
-                        // lastName = payload.lastName;
-                        // console.log(lastName);
-                        // email = payload.email;
-                        // console.log(email);
-                        // schedule = payload.schedule;
-                        // console.log(schedule);
-                        nameElement.innerText = user.firstName + ' ' + user.lastName;
-                        if (user.email) emailElement.innerText = user.email;
-                        // scheduleElement.innerText = schedule;
                         console.log(state);
+
+                        dashboardHeaderRole.innerHTML = `| ${user.role} dashboard`;
+                        dashboardHeaderName.innerHTML = `${user.firstName} ${user.lastName} ` + dashboardHeaderRole.outerHTML;
                         
+                        renderStudentFrag();
+
                     }
                 })
                 .catch(err => console.error(err));
-
-            
 
             // Append path to end of web address
             // window.history.pushState('dashboard', 'Dashboard', '/dashboard');
 
         });
 
+    }
+
+    function renderStudentFrag() {
+        if(user.role === 'student') {
+            studentDashFrag.removeAttribute('hidden');
+        } else if(user.role === 'faculty') {
+            facultyDashFrag.removeAttribute('hidden');
+        } else {
+            updateAlertMessage('Error: user type not found', 'error');
+        }
+    }
+
+    function updateAlertMessage(alertMsg, level) {
+        if (alertMsg && level === 'error') {
+            errorMsg.removeAttribute('hidden');
+            errorMsg.innerText = alertMsg;
+        } else if (alertMsg && level === 'warn') {
+            warnMsg.removeAttribute('hidden');
+            warnMsg.innerText = alertMsg;
+        } else if (alertMsg && level === 'info') {
+            infoMsg.removeAttribute('hidden');
+            infoMsg.innerText = alertMsg;
+        } else {
+            errorMsg.setAttribute('hidden', 'true');
+            errorMsg.innerText = '';
+            warnMsg.setAttribute('hidden', 'true');
+            warnMsg.innerText = '';
+            infoMsg.setAttribute('hidden', 'true');
+            infoMsg.innerText = '';
+        }
     }
 
 }

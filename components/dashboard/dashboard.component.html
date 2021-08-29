@@ -1,25 +1,86 @@
 <div id="dashboard-component">
 
-    <div class="form-signin">
-        <h1 id="welcome-user" class="h3 mb-3 fw-normal">Welcome</h1>
+    <div id="dashboard-header">
 
-        <div id="username-container" class="form-floating">
-            
-        </div>
-        <div id="name-container" class="form-floating">
-            
-        </div>
-        <div id="email-container" class="form-floating">
+        <div class="container">
+            <div class="row">
+              <div class="col">
 
-        </div>
-        <div id="schedule-container" class="form-floating">
+                <h3 id="dashboard-header-user-name">
 
-        </div>
+                    <small id="dashboard-header-user-dashboard" class="text-muted">With faded secondary text</small>
+                </h3>
+
+              </div>
+              <div class="col-6">
+
+                <div id="error-msg-container">
+                      <div hidden id="error-msg" class="alert alert-danger" role="alert">
+                        A simple danger alert—check it out!
+                      </div>
+                      <div hidden id="warn-msg" class="alert alert-warning" role="alert">
+                        A simple warning alert—check it out!
+                      </div>
+                      <div hidden id="info-msg" class="alert alert-info" role="alert">
+                        A simple info alert—check it out!
+                      </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
 
     </div>
 
-    <div id="error-msg-container">
-        <p hidden id="error-msg" class="alert alert-danger"></p>
+    <div id="dashboard-body">
+
+        <!-- Student Dashboard Fragment Body -->
+
+        <div hidden id="student-dash-frag">
+            <div class="table-responsive-xxl">
+                <table class="table table-striped caption-top">
+                    <caption>Schedule</caption>
+                    <thead>
+                        <tr>
+                            <td class="title_column">title</td>
+                            <td>dept.</td>
+                            <td>course no.</td>
+                            <td>section</td>
+                            <td class="instructor_column">instructor</td>
+                            <td>credits</td>
+                            <td class="meeting_column">meeting times</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Introduction to Programming</td>
+                            <td>two</td>
+                            <td>three</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>four</td>
+                            <td>five</td>
+                            <td>six</td>
+                            <td>one</td>
+                            <td>two</td>
+                            <td>three</td>
+                            <td>mewow</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Faculty Dashboard Fragment Body -->
+
+        <div hidden id="faculty-dash-frag">
+            <p>Faculty Dashboard Fragment</p>
+        </div>
+
     </div>
 
 </div>
