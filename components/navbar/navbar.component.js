@@ -9,6 +9,7 @@ function NavbarComponent() {
     let frag = 'components/navbar/navbar.component';
 
     let logoutNavElement;
+    let courseNavElement;
 
     function injectTemplate(callback) {
 
@@ -54,15 +55,19 @@ function NavbarComponent() {
             document.getElementById('nav-to-login').addEventListener('click', navigateToView);
             document.getElementById('nav-to-register').addEventListener('click', navigateToView);
             document.getElementById('nav-to-dashboard').addEventListener('click', navigateToView);
-            document.getElementById('nav-to-courses').addEventListener('click', navigateToView);
+            courseNavElement = document.getElementById('nav-to-courses');
+
+            courseNavElement.addEventListener('click', navigateToView);
 
             logoutNavElement = document.getElementById('logout');
             logoutNavElement.addEventListener('click', logout);
 
             if(state.authUser) {
                 logoutNavElement.removeAttribute('hidden');
+                courseNavElement.removeAttribute('hidden');
             } else {
                 logoutNavElement.setAttribute('hidden', 'true');
+                courseNavElement.setAttribute('hidden', 'true');
             }
 
         });

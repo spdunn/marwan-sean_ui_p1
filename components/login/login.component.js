@@ -99,6 +99,7 @@ function LoginComponent() {
 
 
             document.getElementById('logout').removeAttribute('hidden');
+            document.getElementById('nav-to-courses').removeAttribute('hidden');
     }
 
     this.render = function() {

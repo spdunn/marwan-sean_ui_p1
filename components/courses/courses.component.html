@@ -8,6 +8,8 @@
 
         <table id="catalog-table" class="table table-bordered table-dark table-hover">
             <colgroup>
+
+                <col span="1" style="width: 4%;">
                 <col span="1" style="width: 12%;">
                 <col span="1" style="width: 9%;">
                 <col span="1" style="width: 6%;">
@@ -18,11 +20,13 @@
                 <col span="1" style="width: 4%;">
                 <col span="1" style="width: 14.5%;">
                 <col span="1" style="width: 14.5%;">
-                <col span="1" style="width: 14.5%;">
+                <col span="1" style="width: 14.5%;">                
+
              </colgroup>
 
             <thead>
                 <tr id="catalog-table-heading">
+                    <td id="selector" value="delete"></td>
                     <td value="title">Title</td>
                     <td value="department">Department</td>
                     <td value="courseNo">Course Number</td>
@@ -32,13 +36,208 @@
                     <td value="totalSeats">Total Seats</td>
                     <td value="openSeats">Open Seats</td>                
                     <td value="description">Description</td>
-                    <td id="meetingTimes" value="meetingTimes">Meeting Times</td>
+                    <td id="meetingTimes" value="meetingTimes">Meeting Times</td>                   
                     <td id="prerequisites" value="prerequisites">Prerequisites</td>
+
                 </tr>
             </thead>
             <tbody id="catalog-table-body">
 
             </tbody>
         </table>
+
     </div>
+
+    <button type="button" data-bs-toggle="modal" data-bs-target="#createModal">Launch modal</button>
+
+    <!-- CreateModal -->
+    <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h3 id="createModalTitle" class="modal-title">Create a New Course!</h3>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="createModalBody" class="modal-body">
+                <div class= "form-register">
+                    <div id="create-error-msg-container">
+                        <p hidden id="create-error-msg" class="alert alert-danger"></p>
+                    </div>
+
+                    <h1 class="h5 mb-3 fw-normal">(Leave field blank to ignore)</h1>
+            
+                    <div id="course-title-container" class="form-floating">
+                        <input type="text" class="form-control title" id="course-form-title" placeholder="Title" required="true">
+                        <label for="course-form-title">Title</label>
+                    </div>
+            
+                    <div id="course-dept-container" class="form-floating">
+                        <input type="text" class="form-control department" id="course-form-dept" placeholder="Department" required="true">
+                        <label for="course-form-dept">Department</label>
+                    </div>
+            
+                    <div id="course-number-container" class="form-floating">
+                        <input type="number" class="form-control courseNo" id="course-form-number" placeholder="Course Number" min=100 required="true">
+                        <label for="course-form-number">Course Number</label>
+                    </div>
+            
+                    <div id="course-section-container" class="form-floating">
+                        <input type="number" class="form-control sectionNo" id="course-form-section" placeholder="Section Number" min=1 required="true">
+                        <label for="course-form-section">Section Number</label>
+                    </div>
+            
+                    <div id="course-instructor-container" class="form-floating">
+                        <input type="text" class="form-control instructor" id="course-form-instructor" placeholder="Instructor">
+                        <label for="course-form-instructor">Instructor</label>
+                    </div>
+            
+                    <div id="course-credits-container" class="form-floating">
+                        <input type="number" class="form-control credits" id="course-form-credits" placeholder="Number of Credits" min=0>
+                        <label for="course-form-credits">Number of Credits</label>
+                    </div>
+
+                    <div id="course-totalseats-container" class="form-floating">
+                        <input type="number" class="form-control totalSeats" id="course-form-totalseats" placeholder="Total Number of Seats" min=0>
+                        <label for="course-form-totalseats">Total Number of Seats</label>
+                    </div>
+
+                    <div id="course-openseats-container" class="form-floating">
+                        <input type="number" class="form-control openSeats" id="course-form-openseats" placeholder="Number of Open Seats" min=0>
+                        <label for="course-form-openseats">Number of Open Seats</label>
+                    </div>
+
+                    <div id="course-description-container" class="form-group">
+                        <textarea class="form-control description" id="course-form-description" rows=4 placeholder="Description"></textarea>
+                    </div>
+
+                    <!-- TODO: Implement meeting times and prereqs to course creation -->
+                    <!-- <div id="course-meetingtimes-container" class="form-floating">
+                        <input type="text" class="form-control" id="course-form-meetingtimes" placeholder="Meeting Times">
+                        <label for="course-form-meetingtimes">Meeting Times</label>
+                    </div>
+
+                    <div id="course-prerequisites-container" class="form-floating">
+                        <input type="text" class="form-control" id="course-form-prerequisites" placeholder="Prerequisites">
+                        <label for="course-form-prerequisites">Prerequisites</label>
+                    </div> -->
+            
+                    <button id="create-course-button" class="w-100 btn btn-lg btn-primary" type="submit">Create Course</button>
+            
+                </div>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- UpdateModal -->
+    <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h3 id="updateModalTitle" class="modal-title">Update Course</h3>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="updateModalBody" class="modal-body">
+                <div class= "form-register">
+                    <div id="update-error-msg-container">
+                        <p hidden id="update-error-msg" class="alert alert-danger"></p>
+                    </div>
+
+                    <h1 class="h5 mb-3 fw-normal">(Leave field untouched to ignore)</h1>
+            
+                    <div id="course-title-container" class="form-floating">
+                        <input type="text" class="form-control title" id="course-form-title" placeholder="Title" required="true">
+                        <label for="course-form-title">Title</label>
+                    </div>
+            
+                    <div id="course-dept-container" class="form-floating">
+                        <input type="text" class="form-control department" id="course-form-dept" placeholder="Department" required="true">
+                        <label for="course-form-dept">Department</label>
+                    </div>
+            
+                    <div id="course-number-container" class="form-floating">
+                        <input type="number" class="form-control courseNo" id="course-form-number" placeholder="Course Number" min=100 required="true">
+                        <label for="course-form-number">Course Number</label>
+                    </div>
+            
+                    <div id="course-section-container" class="form-floating">
+                        <input type="number" class="form-control sectionNo" id="course-form-section" placeholder="Section Number" min=1 required="true">
+                        <label for="course-form-section">Section Number</label>
+                    </div>
+            
+                    <div id="course-instructor-container" class="form-floating">
+                        <input type="text" class="form-control instructor" id="course-form-instructor" placeholder="Instructor">
+                        <label for="course-form-instructor">Instructor</label>
+                    </div>
+            
+                    <div id="course-credits-container" class="form-floating">
+                        <input type="number" class="form-control credits" id="course-form-credits" placeholder="Number of Credits" min=0>
+                        <label for="course-form-credits">Number of Credits</label>
+                    </div>
+
+                    <div id="course-totalseats-container" class="form-floating">
+                        <input type="number" class="form-control totalSeats" id="course-form-totalseats" placeholder="Total Number of Seats" min=0>
+                        <label for="course-form-totalseats">Total Number of Seats</label>
+                    </div>
+
+                    <div id="course-openseats-container" class="form-floating">
+                        <input type="number" class="form-control openSeats" id="course-form-openseats" placeholder="Number of Open Seats" min=0>
+                        <label for="course-form-openseats">Number of Open Seats</label>
+                    </div>
+
+                    <div id="course-description-container" class="form-group">
+                        <textarea class="form-control description" id="course-form-description" rows=4 placeholder="Description"></textarea>
+                    </div>
+
+                    <!-- TODO: Implement meeting times and prereqs to course creation -->
+                    <!-- <div id="course-meetingtimes-container" class="form-floating">
+                        <input type="text" class="form-control" id="course-form-meetingtimes" placeholder="Meeting Times">
+                        <label for="course-form-meetingtimes">Meeting Times</label>
+                    </div>
+
+                    <div id="course-prerequisites-container" class="form-floating">
+                        <input type="text" class="form-control" id="course-form-prerequisites" placeholder="Prerequisites">
+                        <label for="course-form-prerequisites">Prerequisites</label>
+                    </div> -->
+            
+                    <button id="update-course-button" class="w-100 btn btn-lg btn-primary" type="submit">Update Course</button>
+            
+                </div>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Button trigger modal -->
+    <button id="submit-course-button" type="button" class="w-100 btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal"></button>
+    
+    <!-- ConfirmModal -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 id="confirmModalTitle" class="modal-title">Are you sure you want to delete </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="confirmModalBody" class="modal-body">
+            
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button id="deleteButton" type="button" class="btn btn-primary">Confirm</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    
+
+    
+    
 </div>
