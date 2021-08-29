@@ -35,7 +35,7 @@ function CoursesComponent() {
         cellValue = '';
         for (const[index, obj] of Object.entries(tempObject)) {
             if (index != 0) cellValue += '\n';
-            
+
             cellValue += obj.day + ' ';
 
             var startTime = obj['startTime'] + '';
@@ -84,16 +84,21 @@ function CoursesComponent() {
             // console.log(element.title);
             for (let j of catalogTableHeadingElement.cells) {
                 // console.log(j.getAttribute('value'));
-                var cellValue = element[`${j.getAttribute('value')}`];     
+                var cellField = j.getAttribute('value');
+                var cellValue = element[`${cellField}`]; 
+
+                var cell = document.createElement('td');                 
 
                 if (!cellValue) cellValue = "";
                 // console.log(cellValue);
 
                 if (typeof cellValue === 'object') {
-                    if (j.getAttribute('value') == 'meetingTimes') {
+                    if (cellField == 'meetingTimes') {
+                        cell.id = 'meetingTimes';
                         cellValue = deserializeMeetingTimes(cellValue);
                     }
-                    else if (j.getAttribute('value') == 'prerequisites') {
+                    else if (cellField == 'prerequisites') {
+                        cell.id = 'prerequisites';
                         cellValue = deserializePrerequisites(cellValue);
                     }
                     console.log(cellValue);
@@ -102,7 +107,7 @@ function CoursesComponent() {
                     
                 }
 
-                var cell = document.createElement('td');
+                
                 cell.appendChild(document.createTextNode(cellValue));
                 row.appendChild(cell);
 

@@ -1,5 +1,5 @@
-<div id="courses-container">
-    <div class="form-signin">
+<div id="courses-container" >
+    <div class="form-signin" >
         <h1 id="catalog-heading" class="h3 mb-3 fw-normal">Course Catalog</h1>
 
         <div id="error-msg-container">
@@ -7,6 +7,20 @@
         </div>
 
         <table id="catalog-table" class="table table-bordered table-dark table-hover">
+            <colgroup>
+                <col span="1" style="width: 12%;">
+                <col span="1" style="width: 9%;">
+                <col span="1" style="width: 6%;">
+                <col span="1" style="width: 6%;">
+                <col span="1" style="width: 13%;">
+                <col span="1" style="width: 5%;">
+                <col span="1" style="width: 4%;">
+                <col span="1" style="width: 4%;">
+                <col span="1" style="width: 14.5%;">
+                <col span="1" style="width: 14.5%;">
+                <col span="1" style="width: 14.5%;">
+             </colgroup>
+
             <thead>
                 <tr id="catalog-table-heading">
                     <td value="title">Title</td>
@@ -18,8 +32,8 @@
                     <td value="totalSeats">Total Seats</td>
                     <td value="openSeats">Open Seats</td>                
                     <td value="description">Description</td>
-                    <td value="meetingTimes">Meeting Times</td>
-                    <td value="prerequisites">Prerequisites</td>
+                    <td id="meetingTimes" value="meetingTimes">Meeting Times</td>
+                    <td id="prerequisites" value="prerequisites">Prerequisites</td>
                 </tr>
             </thead>
             <tbody id="catalog-table-body">
