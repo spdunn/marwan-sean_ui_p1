@@ -224,7 +224,9 @@ function CoursesComponent() {
             for (let j of catalogTableHeadingElement.cells) {
                 // console.log(j.getAttribute('value'));
                 var cellField = j.getAttribute('value');
+
                 if (state.authUser.role === 'faculty' && cellField === 'delete') continue;
+
                 var cellValue = element[`${cellField}`]; 
 
                 var cell = document.createElement('td');                 
@@ -240,8 +242,13 @@ function CoursesComponent() {
                     else if (cellField == 'prerequisites') {
                         cell.id = 'prerequisites';
                         cellValue = deserializePrerequisites(cellValue);
-                    }                    
-                }                
+                    }
+                    console.log(cellValue);
+                    // cellValue = JSON.stringify(cellValue);
+                    // var tempObject = JSON.parse(cellValue);
+                    
+                }
+
                 cell.appendChild(document.createTextNode(cellValue));
                 row.appendChild(cell);
 
