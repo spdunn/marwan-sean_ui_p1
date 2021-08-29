@@ -16,11 +16,19 @@ function LoginComponent() {
     let password = '';
 
     function updateUsername(e) {
-        username = e.target.value;
+        if(e.keyCode === 13) {
+            loginButtonElement.click();
+        } else {
+            username = e.target.value;
+        }
     }
 
     function updatePassword(e) {
-        password = e.target.value;
+        if(e.keyCode === 13) {
+            loginButtonElement.click();
+        } else {
+            password = e.target.value;
+        }
     }
 
     function updateErrorMessage(errorMessage) {
@@ -45,6 +53,8 @@ function LoginComponent() {
         } else {
             updateErrorMessage('');
         }
+
+        passwordFieldElement.value = '';
 
         let credentials = {
             username: username,
@@ -87,6 +97,8 @@ function LoginComponent() {
             })
             .catch(err => console.error(err));
 
+
+            document.getElementById('logout').removeAttribute('hidden');
     }
 
     this.render = function() {
