@@ -46,6 +46,7 @@ function NavbarComponent() {
         localStorage.clear();
         sessionStorage.clear();
         logoutNavElement.setAttribute('hidden', 'true');
+        courseNavElement.setAttribute('hidden', 'true');
         router.navigate('/login');
     }
 

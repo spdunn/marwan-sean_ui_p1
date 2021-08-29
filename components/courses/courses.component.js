@@ -26,10 +26,14 @@ function CoursesComponent() {
     let createModalBody;
     let createModalError;
     let createModalSubmit;
+    let createModalButtonElement;
 
     let courseList;
     let selectedCourses = [];
     let currentCourse = {
+
+    };
+    let currentCourseHeader = {
 
     };
 
@@ -128,6 +132,48 @@ function CoursesComponent() {
             submitButtonElement.innerText = "";
             modalBodyElement.innerText = '';
         }
+    }
+
+    // Add Course to User Schedule
+    function updateScheduleModal(e) {
+        currentCourse = courseList.find(element => element.id === e.target.id);
+        // console.log(currentCourse);
+        let scheduleModalBody = document.getElementById('scheduleModalBody');
+        scheduleModalBody.innerText = currentCourse.title + '\n' + currentCourse.deptShort + ' ' + currentCourse.courseNo + ' - ' + currentCourse.sectionNo; 
+    }
+
+    async function addToSchedule() {
+        // Send fetch to Users Patch with currentUser and currentCourse
+        currentCourseHeader = {
+            courseDept: `${currentCourse.deptShort}`,
+            courseNo: `${currentCourse.courseNo}`,
+            sectionNo: `${currentCourse.sectionNo}`,
+            meetingTimes: `${currentCourse.meetingTimes}`
+        }
+        console.log(currentCourseHeader);
+        // authUser.schedule.append()
+        // try {
+        //     let resp = await fetch(`${env.apiUrl}/users?id=${state.authUser.id}`, {
+        //         method: 'PATCH',
+        //         headers: {
+        //             'Authorization': `${state.token}`
+        //         },
+        //         body: JSON.stringify(newCourse)
+        //     });
+        //     let payload = await resp.json();
+        //     if (resp.status != 200) {
+        //         console.log('ERroR');
+        //         createModalError.removeAttribute('hidden');
+        //         createModalError.style.color = 'red';
+        //         createModalError.innerText = 'ERROR: ' + payload.message;
+        //         return;
+        //     } 
+        // } catch (error) {
+        //     console.log(error);            
+        //     return;
+        // }
+        // // TODO: Currently sends user back to home, possibly even refresh session?
+        // location.reload(true);
     }
 
     // CRUD: CREATE
@@ -262,14 +308,14 @@ function CoursesComponent() {
             // Add Add Course button for students, Edit Course button for faculty
             if (state.authUser.role === 'faculty' || state.authUser.role === 'pendingFaculty') {    
                 button.innerHTML = 'Edit Course';
-                // button.dataset.toggle = 'modal';
-                // button.dataset['target'] = '#updateModal';
                 button.setAttribute('data-bs-toggle', 'modal');
                 button.setAttribute('data-bs-target', '#updateModal');
                 button.addEventListener('click', updateModal);
             } else if (state.authUser.role === 'student') {
                 button.innerHTML = 'Add Course';
-                // button.onclick = addCourseToSchedule();
+                button.setAttribute('data-bs-toggle', 'modal');
+                button.setAttribute('data-bs-target', '#scheduleModal');
+                button.addEventListener('click', updateScheduleModal);
             }
             row.appendChild(button);
             console.log(button);
@@ -330,9 +376,11 @@ function CoursesComponent() {
             updateModalError.innerText = `ERROR: You have not updated any fields!`;
             return;
         }
-        console.log(updatedCourse);
+        // console.log(updatedCourse);
 
         updatedCourse.id = currentCourse.id;
+
+        // console.log(JSON.stringify(updatedCourse));
 
         // Send to Java Servlet
         try {
@@ -361,7 +409,6 @@ function CoursesComponent() {
     }
 
     function updateModal(e) {
-        console.log('Modal has been updated');
         var fields = document.getElementById('updateModalBody').querySelectorAll('.form-control');
 
         currentCourse = courseList.find(element => element.id === e.target.id);
@@ -421,6 +468,13 @@ function CoursesComponent() {
             createModalSubmit = document.getElementById('create-course-button');
             createModalSubmit.addEventListener('click', createCourse);
 
+            createModalButtonElement = document.getElementById('create-modal-button');
+            if (state.authUser.role === 'faculty' || state.authUser.role === 'pendingFaculty') {
+                createModalButtonElement.removeAttribute('hidden');
+            } else {
+                createModalButtonElement.setAttribute('hidden', 'true');
+            }
+
             submitButtonElement.onclick = function() {
                 updateSubmitButton();
                 modalBodyElement.style.color = 'black';
@@ -430,6 +484,9 @@ function CoursesComponent() {
             let updateModalButtonElement = document.getElementById('update-course-button');
             updateModalButtonElement.addEventListener('click', updateCourse);
             // updateModalElement.addEventListener('show.bs.modal', updateModal);
+
+            let scheduleModalButtonElement = document.getElementById('scheduleButton');
+            scheduleModalButtonElement.addEventListener('click', addToSchedule);
 
             initializeTable();
         })
