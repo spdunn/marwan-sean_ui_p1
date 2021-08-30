@@ -36,41 +36,31 @@
 
         <!-- Student Dashboard Fragment Body -->
 
-        <div hidden id="student-dash-frag">
-            <div class="table-responsive-xxl">
+        <div id="student-dash-frag">
+            <div id="empty-schedule" class="container mt-5">
+                <div class="row justify-content-md-center">
+                    <div class="col-md-auto">
+                        <div style="color: #e9ecef">
+                            <h1>Schedule Empty</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div hidden id="schedule" class="table-responsive-xxl">
                 <table id="schedule-table" class="table table-striped caption-top">
                     <caption>Schedule</caption>
                     <thead>
-                        <tr id="schedule-table-heading">
-                            <td id="title" class="title_column">title</td>
-                            <td id="department">dept.</td>
-                            <td id="courseNo">course no.</td>
-                            <td id="sectionNo">section</td>
-                            <td id="instructor" class="instructor_column">instructor</td>
-                            <td id="credits">credits</td>
-                            <td id="meetingTimes" class="meeting_column">meeting times</td>
+                        <tr>
+                            <td hidden class="id_column">id</td>
+                            <td class="title_column">title</td>
+                            <td>dept.</td>
+                            <td>course #</td>
+                            <td>section #</td>
+                            <td class="instructor_column">instructor</td>
+                            <td>credits</td>
+                            <td class="meeting_column">meeting times</td>
                         </tr>
                     </thead>
-                    <tbody id="schedule-table-body">
-                        <!-- <tr>
-                            <td>Introduction to Programming</td>
-                            <td>two</td>
-                            <td>three</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>four</td>
-                            <td>five</td>
-                            <td>six</td>
-                            <td>one</td>
-                            <td>two</td>
-                            <td>three</td>
-                            <td>mewow</td>
-                        </tr> -->
-                    </tbody>
                 </table>
             </div>
         </div>

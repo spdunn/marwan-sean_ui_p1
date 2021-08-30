@@ -130,9 +130,16 @@ function DashboardComponent() {
             console.log(courseList);
         } else return;  // If no courses, don't continue with rest of logic
 
-        scheduleTableElement = document.getElementById('schedule-table');
-        scheduleTableHeadingElement = document.getElementById('schedule-table-heading');
-        scheduleTableBodyElement = document.getElementById('schedule-table-body');
+        dashboardHeaderRole.innerHTML = `| ${user.role} dashboard`;
+        dashboardHeaderName.innerHTML = `${user.firstName} ${user.lastName} ` + dashboardHeaderRole.outerHTML;
+
+        if(user.role === 'student') {
+            renderStudentFrag();
+        } else if(user.role === 'faculty') {
+            renderFacultyFrag();
+        } else {
+            updateAlertMessage('Error: user type not found!', 'error');
+        }
 
         courseList.forEach(element => {
             var row = document.createElement('tr');
@@ -170,7 +177,132 @@ function DashboardComponent() {
     }
 
     function renderStudentFrag() {
-        studentDashFrag.removeAttribute('hidden');        
+        let scheduleEmptyMsg = document.getElementById('empty-schedule');
+        let schedule = document.getElementById('schedule');
+        let scheduleTable = document.getElementById('schedule-table');
+
+        studentDashFrag.removeAttribute('hidden');
+
+        if(user.schedule) {
+            scheduleEmptyMsg.setAttribute('hidden', 'true');
+            schedule.removeAttribute('hidden');
+        }
+
+        populateScheduleTable(scheduleTable);
+
+    }
+
+    async function dropCourseById(e) {
+        let id = e.target.getAttribute('value');
+        for(let index in user.schedule) {
+            if(user.schedule[index].id === id) {
+                user.schedule.splice(index, 1);
+                break;
+            }
+        }
+
+        await fetch(`${env.apiUrl}/users`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `${state.token}`
+            },
+            body: JSON.stringify(user)
+        })
+
+        location.reload(true);
+
+    }
+
+    function populateScheduleTable(scheduleTable) {
+
+        let tableBody = document.createElement("tbody");
+
+        let schedule = user.schedule;
+        for(let course of schedule) {
+            let row = document.createElement("tr");
+
+            let id = document.createElement("td");
+            id.setAttribute('hidden', 'true');
+            if(course.id) {
+                id.innerText = course.id;
+            }
+            row.append(id);
+
+            let title = document.createElement("td");
+            if(course.title) {
+                title.innerText = course.title;
+            }
+            row.append(title);
+
+            let deptShort = document.createElement("td");
+            if(course.deptShort) {
+                deptShort.innerText = course.deptShort;
+            }
+            row.append(deptShort);
+
+            let courseNo = document.createElement("td");
+            if(course.courseNo) {
+                courseNo.innerText = course.courseNo;
+            }
+            row.append(courseNo);
+
+            let sectionNo = document.createElement("td");
+            if(course.sectionNo) {
+                sectionNo.innerText = course.sectionNo;
+            }
+            row.append(sectionNo);
+
+            let instructor = document.createElement("td");
+            if(course.instructor) {
+                instructor.innerText = course.instructor;
+            } else {
+                instructor.innerText = 'TBA';
+            }
+            row.append(instructor);
+
+            let credits = document.createElement("td");
+            if(course.credits) {
+                credits.innerText = course.credits;
+            }
+            row.append(credits);
+
+            let meetingTimesCell = document.createElement('td');
+            let mdiv = document.createElement('div');
+            mdiv.setAttribute('class', 'cell-container');
+            let meetingTimes = document.createElement('div');
+            meetingTimes.setAttribute('class', 'scroll');
+            let meetingTimeEntry = '';
+            if(course.meetingTimes) {
+                for(let meet of course.meetingTimes) {
+                    if(meetingTimeEntry) {
+                        meetingTimeEntry += '\n';
+                    }
+                    meetingTimeEntry += `${meet.day} ${meet.startTime} - ${meet.endTime}\n(${meet.classType})`;
+                }
+                meetingTimes.innerText = meetingTimeEntry;
+            } else {
+                meetingTimes.innerText = 'TBA';
+            }
+            mdiv.append(meetingTimes);
+            meetingTimesCell.append(mdiv);
+            row.append(meetingTimesCell);
+
+            let deleteTd = document.createElement('td');
+            let deleteBtn = document.createElement('button');
+            deleteBtn.setAttribute('value', course.id);
+            deleteBtn.setAttribute('type', 'button');
+            deleteBtn.setAttribute('class', 'btn btn-danger');
+            deleteBtn.innerText = 'drop';
+            deleteBtn.addEventListener('click', dropCourseById);
+            deleteTd.append(deleteBtn);
+            row.append(deleteTd);
+
+            tableBody.append(row);
+        }
+
+        scheduleTable.append(tableBody);
+
     }
 
     function renderFacultyFrag() {

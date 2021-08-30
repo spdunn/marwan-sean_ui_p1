@@ -325,8 +325,8 @@ function CoursesComponent() {
             var button = document.createElement('button');
             button.id = element['id'];
             button.type = 'button';
-            button.classList.remove(...button.classList);
-            button.classList.add('btn', 'btn-info');
+            // button.classList.remove(...button.classList);
+            button.setAttribute('class', 'btn btn-danger')
             // Add Add Course button for students, Edit Course button for faculty
             if (state.authUser.role === 'faculty' || state.authUser.role === 'pendingFaculty') {    
                 button.innerHTML = 'Edit Course';
