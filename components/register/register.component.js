@@ -44,7 +44,7 @@ function RegisterComponent() {
 
     function updatePassword(e) {
         password = e.target.value;
-        console.log(password);
+        // console.log(password);
         if (password === confirmPassword)
             updateErrorMessage('');
         else updateErrorMessage('Passwords must match!');
@@ -52,7 +52,7 @@ function RegisterComponent() {
 
     function updateConfirmPassword(e) {
         confirmPassword = e.target.value;
-        console.log(confirmPassword);
+        // console.log(confirmPassword);
         if (password === confirmPassword)
             updateErrorMessage('');
         else updateErrorMessage('Passwords must match!');
@@ -97,7 +97,7 @@ function RegisterComponent() {
 
         let status = 0;
 
-        console.log(newUser);
+        // console.log(newUser);
         // Send to RegisterServlet
         fetch(`${env.apiUrl}/users`, {
             method: 'POST',
