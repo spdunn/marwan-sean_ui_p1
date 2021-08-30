@@ -142,17 +142,7 @@ function CoursesComponent() {
         scheduleModalBody.innerText = currentCourse.title + '\n' + currentCourse.deptShort + ' ' + currentCourse.courseNo + ' - ' + currentCourse.sectionNo; 
     }
 
-    async function addToSchedule() {
-        // Send fetch to Users Patch with currentUser and currentCourse
-        // currentCourseHeader = {
-        //     courseDept: `${currentCourse.deptShort}`,
-        //     courseNo: `${currentCourse.courseNo}`,
-        //     sectionNo: `${currentCourse.sectionNo}`,
-        //     meetingTimes: `${currentCourse.meetingTimes}`
-        // }
-        // console.log(currentCourseHeader);
-        // authUser.schedule.push()
-        
+    async function addToSchedule() {        
         // Get Current User (For Schedule)
         let currentUser = {};
         try {
@@ -168,7 +158,7 @@ function CoursesComponent() {
             return;
         }
         let schedule = currentUser.schedule;
-        schedule.push(`${currentCourse.id}`);
+        schedule.push(currentCourse);
         let updatedUser = {
             id: state.authUser.id,
             schedule: schedule
@@ -185,9 +175,6 @@ function CoursesComponent() {
             let payload = await resp.json();
             if (resp.status != 200) {
                 console.log('ERroR');
-                createModalError.removeAttribute('hidden');
-                createModalError.style.color = 'red';
-                createModalError.innerText = 'ERROR: ' + payload.message;
                 return;
             } 
         } catch (error) {
@@ -195,7 +182,7 @@ function CoursesComponent() {
             return;
         }
         // TODO: Currently sends user back to home, possibly even refresh session?
-        // location.reload(true);
+        location.reload(true);
     }
 
     // CRUD: CREATE

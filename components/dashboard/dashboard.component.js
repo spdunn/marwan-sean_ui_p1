@@ -104,76 +104,44 @@ function DashboardComponent() {
             })
             .catch(err => console.error(err));
 
-        let courseList = [];
-        if (user.schedule.length > 0) {
-            console.log(user.schedule);
-            for (let course of user.schedule) {
-                console.log(course);
-                try {
-                    var courseResp = await fetch(`${env.apiUrl}/courses?id=${course.id}`, {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                    var coursePayload = await courseResp.json();
-                    if (courseResp.header === 400) {
-                        updateErrorMessage(payload.message);
-                    } else {
-                        // Update Dashboard with Course data
-                        courseList.push(coursePayload);
-                    }
-                } catch (e) {
-                    console.error(e);
-                }
-            }
-            console.log(courseList);
-        } else return;  // If no courses, don't continue with rest of logic
+        // let courseList = [];
+        // if (user.schedule.length > 0) {
+        //     console.log(user.schedule);
+        //     for (let course of user.schedule) {
+        //         console.log(course);
+        //         try {
+        //             var courseResp = await fetch(`${env.apiUrl}/courses?id=${course.id}`, {
+        //                 method: 'GET',
+        //                 headers: {
+        //                     'Content-Type': 'application/json'
+        //                 }
+        //             })
+        //             var coursePayload = await courseResp.json();
+        //             if (courseResp.header === 400) {
+        //                 updateErrorMessage(payload.message);
+        //             } else {
+        //                 // Update Dashboard with Course data
+        //                 courseList.push(coursePayload);
+        //             }
+        //         } catch (e) {
+        //             console.error(e);
+        //         }
+        //     }
+        //     console.log(courseList);
+        // } else return;  // If no courses, don't continue with rest of logic
 
-        dashboardHeaderRole.innerHTML = `| ${user.role} dashboard`;
-        dashboardHeaderName.innerHTML = `${user.firstName} ${user.lastName} ` + dashboardHeaderRole.outerHTML;
+        // dashboardHeaderRole.innerHTML = `| ${user.role} dashboard`;
+        // dashboardHeaderName.innerHTML = `${user.firstName} ${user.lastName} ` + dashboardHeaderRole.outerHTML;
 
-        if(user.role === 'student') {
-            renderStudentFrag();
-        } else if(user.role === 'faculty') {
-            renderFacultyFrag();
-        } else {
-            updateAlertMessage('Error: user type not found!', 'error');
-        }
+        // if(user.role === 'student') {
+        //     renderStudentFrag();
+        // } else if(user.role === 'faculty') {
+        //     renderFacultyFrag();
+        // } else {
+        //     updateAlertMessage('Error: user type not found!', 'error');
+        // }
 
-        courseList.forEach(element => {
-            var row = document.createElement('tr');
 
-            for (let j of scheduleTableHeadingElement.cells) {
-                var cellField = j.getAttribute('id');
-                console.log(cellField);
-
-                var cellValue = element[`${cellField}`]; 
-
-                var cell = document.createElement('td');
-
-                if (typeof cellValue === 'object') {
-                    if (cellField == 'meetingTimes') {
-                        cell.id = 'meetingTimes';
-                        cellValue = deserializeMeetingTimes(cellValue);
-                    }
-                    else if (cellField == 'prerequisites') {
-                        cell.id = 'prerequisites';
-                        cellValue = deserializePrerequisites(cellValue);
-                    }
-                    console.log(cellValue);
-                    // cellValue = JSON.stringify(cellValue);
-                    // var tempObject = JSON.parse(cellValue);
-                    
-                }
-
-                cell.appendChild(document.createTextNode(cellValue));
-                row.appendChild(cell);
-            }
-
-            scheduleTableBodyElement.appendChild(row);
-            
-        })
     }
 
     function renderStudentFrag() {
