@@ -4,6 +4,7 @@ import registerComponent from './components/register/register.component.js';
 import dashboardComponent from './components/dashboard/dashboard.component.js';
 import state from './util/state.js';
 import coursesComponent from './components/courses/courses.component.js';
+import usersComponent from './components/users/users.component.js';
 
 import { Router } from "./util/router.js";
 
@@ -26,6 +27,10 @@ let routes = [
     {
         path: '/courses',
         component: coursesComponent
+    },
+    {
+        path: '/users',
+        component: usersComponent
     }
 
 ];
