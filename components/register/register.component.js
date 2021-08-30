@@ -24,22 +24,22 @@ function RegisterComponent() {
 
     function updateFirstname(e) {
         firstname = e.target.value;
-        console.log(firstname);
+        // console.log(firstname);
     }
 
     function updateLastname(e) {
         lastname = e.target.value;
-        console.log(lastname);
+        // console.log(lastname);
     }
 
     function updateEmail(e) {
         email = e.target.value;
-        console.log(email);
+        // console.log(email);
     }
 
     function updateUsername(e) {
         username = e.target.value;
-        console.log(username);
+        // console.log(username);
     }
 
     function updatePassword(e) {
