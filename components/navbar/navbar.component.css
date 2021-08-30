@@ -1,5 +1,17 @@
+#navbar-component {
+    padding-left: 5rem;
+}
+
+div.container-fluid {
+    padding: 0px;
+}
+
 div > input {
     margin-bottom: .6rem;
+}
+
+.nav-item {
+    cursor: pointer;
 }
 
 .dropdown-menu {

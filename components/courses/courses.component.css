@@ -1,0 +1,19 @@
+td {
+    white-space: pre-wrap;
+    /* word-wrap: break-word; */
+    /* overflow-wrap: break-word; */
+}
+
+table {
+    /* max-width: 400px; */
+    width: 100% !important;
+    table-layout:fixed;
+  }
+  
+#submit-course-button {
+    display: none;
+}
+
+#confirmModalBody {
+    overflow-wrap: break-word;
+}

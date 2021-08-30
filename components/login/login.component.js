@@ -9,17 +9,26 @@ function LoginComponent() {
     let usernameFieldElement;
     let passwordFieldElement;
     let loginButtonElement;
+    let rememberMeCheckbox;
     let errorMessageElement;
 
     let username = '';
     let password = '';
 
     function updateUsername(e) {
-        username = e.target.value;
+        if(e.keyCode === 13) {
+            loginButtonElement.click();
+        } else {
+            username = e.target.value;
+        }
     }
 
     function updatePassword(e) {
-        password = e.target.value;
+        if(e.keyCode === 13) {
+            loginButtonElement.click();
+        } else {
+            password = e.target.value;
+        }
     }
 
     function updateErrorMessage(errorMessage) {
@@ -32,6 +41,10 @@ function LoginComponent() {
         }
     }
 
+    function navigateToRegisterView() {
+        router.navigate('/register');
+    }
+
     function login() {
 
         if (!username || !password) {
@@ -40,6 +53,8 @@ function LoginComponent() {
         } else {
             updateErrorMessage('');
         }
+
+        passwordFieldElement.value = '';
 
         let credentials = {
             username: username,
@@ -61,6 +76,10 @@ function LoginComponent() {
                 // Get JWT
                 token = resp.headers.get('Authorization');
                 state.token = token;
+                sessionStorage.setItem('token', JSON.stringify(token));
+                if(rememberMeCheckbox.checked) {
+                    localStorage.setItem('token', JSON.stringify(token));
+                }
                 status = resp.status;
                 return resp.json();
             })
@@ -69,15 +88,20 @@ function LoginComponent() {
                     updateErrorMessage(payload.message);
                 } else {
                     state.authUser = payload;
+                    sessionStorage.setItem('user', JSON.stringify(payload));
+                    if(rememberMeCheckbox.checked) {
+                        localStorage.setItem('user', JSON.stringify(payload));
+                    }
                     router.navigate('/dashboard');
                 }
             })
             .catch(err => console.error(err));
 
-    }
 
-    function navigateToRegisterView() {
-        router.navigate('/register');
+            document.getElementById('logout').removeAttribute('hidden');
+            document.getElementById('nav-to-courses').removeAttribute('hidden');
+            document.getElementById('nav-to-login').setAttribute('hidden', 'true');
+            document.getElementById('nav-to-register').setAttribute('hidden', 'true');
     }
 
     this.render = function() {
@@ -88,6 +112,7 @@ function LoginComponent() {
             passwordFieldElement = document.getElementById('login-form-password');
             loginButtonElement = document.getElementById('login-form-button');
             errorMessageElement = document.getElementById('error-msg');
+            rememberMeCheckbox = document.getElementById('remember-me-checkbox');
 
             usernameFieldElement.addEventListener('keyup', updateUsername);
             passwordFieldElement.addEventListener('keyup', updatePassword);
