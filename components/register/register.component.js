@@ -84,13 +84,15 @@ function RegisterComponent() {
             updateErrorMessage();
         }
 
+        let role = 'student';
+
         let newUser = {
             firstName: firstname,
             lastName: lastname,
             email: email,
             username: username,
             password: password,
-            role: 'student'
+            role: role
         }
 
         let status = 0;
