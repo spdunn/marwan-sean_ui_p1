@@ -85,8 +85,8 @@ function DashboardComponent() {
                     updateErrorMessage(payload.message);
                 } else {
                     user = payload;
-                    console.log(user);
-                    console.log(state);
+                    // console.log(user);
+                    // console.log(state);
 
                     dashboardHeaderRole.innerHTML = `| ${user.role} dashboard`;
                     dashboardHeaderName.innerHTML = `${user.firstName} ${user.lastName} ` + dashboardHeaderRole.outerHTML;
