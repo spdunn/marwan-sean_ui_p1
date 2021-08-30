@@ -233,6 +233,7 @@ function DashboardComponent() {
             deleteBtn.innerText = 'drop';
             deleteBtn.addEventListener('click', dropCourseById);
             deleteTd.append(deleteBtn);
+            deleteTd.setAttribute('style', 'overflow: visible');
             row.append(deleteTd);
 
             tableBody.append(row);

@@ -309,24 +309,27 @@ function CoursesComponent() {
 
             }
 
+            let buttonCell = document.createElement('td');
             var button = document.createElement('button');
             button.id = element['id'];
             button.type = 'button';
             // button.classList.remove(...button.classList);
-            button.setAttribute('class', 'btn btn-danger')
+            button.setAttribute('class', 'btn btn-primary')
             // Add Add Course button for students, Edit Course button for faculty
             if (state.authUser.role === 'faculty' || state.authUser.role === 'pendingFaculty') {    
-                button.innerHTML = 'Edit Course';
+                button.innerText = 'Edit Course';
                 button.setAttribute('data-bs-toggle', 'modal');
                 button.setAttribute('data-bs-target', '#updateModal');
                 button.addEventListener('click', updateModal);
             } else if (state.authUser.role === 'student') {
-                button.innerHTML = 'Add Course';
+                button.innerText = 'Add Course';
                 button.setAttribute('data-bs-toggle', 'modal');
                 button.setAttribute('data-bs-target', '#scheduleModal');
                 button.addEventListener('click', updateScheduleModal);
             }
-            row.appendChild(button);
+            buttonCell.append(button);
+            buttonCell.setAttribute('style', 'overflow: visible');
+            row.appendChild(buttonCell);
             console.log(button);
 
             catalogTableBodyElement.appendChild(row);
