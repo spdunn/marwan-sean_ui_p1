@@ -235,7 +235,7 @@ function CoursesComponent() {
                 console.log('ERroR');
                 createModalError.removeAttribute('hidden');
                 createModalError.style.color = 'red';
-                if (payload.message === 'An error occurred while calling CourseRepository.save().') 
+                if (payload.message == 'An error occurred while calling CourseRepository.save().') 
                     createModalError.innerText = 'ERROR: Course already exists!';
                 else createModalError.innerText = 'ERROR: ' + payload.message;
                 return;
