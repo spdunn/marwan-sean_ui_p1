@@ -1,5 +1,6 @@
 #navbar-component {
     padding-left: 5rem;
+    padding-right: 7rem;
 }
 
 div.container-fluid {
@@ -21,4 +22,15 @@ div > input {
 
 .dropdown-item {
     cursor: pointer;
+}
+
+i {
+    padding-top: .75rem;
+    font-size: 20px;
+    color: gray;
+    margin-left: 1rem;
+}
+
+i:hover {
+    color: white;
 }
