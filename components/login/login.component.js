@@ -98,6 +98,7 @@ function LoginComponent() {
             .catch(err => console.error(err));
 
 
+            document.getElementById('nav-to-dashboard-home').removeAttribute('hidden');
             document.getElementById('logout').removeAttribute('hidden');
             document.getElementById('nav-to-courses').removeAttribute('hidden');
             document.getElementById('nav-to-login').setAttribute('hidden', 'true');
