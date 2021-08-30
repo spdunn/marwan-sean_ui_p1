@@ -235,7 +235,9 @@ function CoursesComponent() {
                 console.log('ERroR');
                 createModalError.removeAttribute('hidden');
                 createModalError.style.color = 'red';
-                createModalError.innerText = 'ERROR: ' + payload.message;
+                if (payload.message === 'An error occurred while calling CourseRepository.save().') 
+                    createModalError.innerText = 'ERROR: Course already exists!';
+                else createModalError.innerText = 'ERROR: ' + payload.message;
                 return;
             } 
         } catch (error) {
