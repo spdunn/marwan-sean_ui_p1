@@ -89,7 +89,8 @@ function RegisterComponent() {
             lastName: lastname,
             email: email,
             username: username,
-            password: password
+            password: password,
+            role: student
         }
 
         let status = 0;
