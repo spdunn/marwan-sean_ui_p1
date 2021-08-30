@@ -27,68 +27,120 @@ function DashboardComponent() {
     let firstName = '';
     let lastName = '';
     let email = '';
-    let schedule = {};
+    
+    let scheduleTableElement;
+    let scheduleTableHeadingElement;
+    let scheduleTableBodyElement;
 
-    this.render = function() {
+    function deserializeMeetingTimes(cellValue) {
+        var tempObject = cellValue;                    
+        cellValue = '';
+        for (const[index, obj] of Object.entries(tempObject)) {
+            if (index != 0) cellValue += '\n';
 
-        if (!state.authUser) {
-            router.navigate('/login');
-            return;
+            cellValue += obj.day + ' ';
+
+            var startTime = obj['startTime'] + '';
+            startTime = startTime.replace(/(.{2})$/,':$1');
+            cellValue += startTime + ' - ';
+
+            var endTime = obj['endTime'] + '';
+            endTime = endTime.replace(/(.{2})$/,':$1');
+            cellValue += endTime + ' ';
+
+            cellValue += '(' + obj.classType + ')';            
         }
+        return cellValue;
+    }
 
-        DashboardComponent.prototype.injectStylesheet();
-        DashboardComponent.prototype.injectTemplate(() => {            
+    function deserializePrerequisites(cellValue) {
+        var tempObject = cellValue;                    
+        cellValue = '';
+        for (const[index, obj] of Object.entries(tempObject)) {
+            if (index != 0) cellValue += '\n';
 
-            dashboardHeaderName = document.getElementById('dashboard-header-user-name');
-            dashboardHeaderRole = document.getElementById('dashboard-header-user-dashboard');
+            cellValue += obj.department + ' ';
+            cellValue += obj.courseNo + ' ';
+            if (obj.credits == 1) cellValue += '(' + obj.credits + ' Credit)';
+            else cellValue += '(' + obj.credits + ' Credits)';
+        }
+        return cellValue;
+    }
 
-            errorMsg = document.getElementById('error-msg');
-            warnMsg = document.getElementById('warn-msg');
-            infoMsg = document.getElementById('info-msg');
+    async function initializeDashboard() {
+        // Send to UserServlet
+        await fetch(`${env.apiUrl}/users?id=${state.authUser.id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `${state.token}`
+            }
+        })
+            .then(resp => {
+                status = resp.status;
+                return resp.json();
+            })
+            .then(payload => {
+                if (status === 401) {
+                    updateErrorMessage(payload.message);
+                } else {
+                    user = payload;
+                    console.log(user);
+                    console.log(state);
 
-            dashboardBody = document.getElementById('dashboard-body');
-            studentDashFrag = document.getElementById('student-dash-frag');
-            facultyDashFrag = document.getElementById('faculty-dash-frag');
+                    dashboardHeaderRole.innerHTML = `| ${user.role} dashboard`;
+                    dashboardHeaderName.innerHTML = `${user.firstName} ${user.lastName} ` + dashboardHeaderRole.outerHTML;
+                    
+                    if(user.role === 'student') {
+                        renderStudentFrag();
+                    } else if(user.role === 'faculty') {
+                        renderFacultyFrag();
+                    } else {
+                        updateAlertMessage('Error: user type not found', 'error');
+                    }
+                    
 
-            // Send to UserServlet
-            fetch(`${env.apiUrl}/users?id=${state.authUser.id}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `${state.token}`
                 }
             })
-                .then(resp => {
-                    status = resp.status;
-                    return resp.json();
-                })
-                .then(payload => {
-                    if (status === 401) {
-                        updateErrorMessage(payload.message);
-                    } else {
-                        user = payload;
-                        console.log(user);
-                        console.log(state);
+            .catch(err => console.error(err));
 
-                        dashboardHeaderRole.innerHTML = `| ${user.role} dashboard`;
-                        dashboardHeaderName.innerHTML = `${user.firstName} ${user.lastName} ` + dashboardHeaderRole.outerHTML;
+        // let courseList = [];
+        // if (user.schedule.length > 0) {
+        //     console.log(user.schedule);
+        //     for (let course of user.schedule) {
+        //         console.log(course);
+        //         try {
+        //             var courseResp = await fetch(`${env.apiUrl}/courses?id=${course.id}`, {
+        //                 method: 'GET',
+        //                 headers: {
+        //                     'Content-Type': 'application/json'
+        //                 }
+        //             })
+        //             var coursePayload = await courseResp.json();
+        //             if (courseResp.header === 400) {
+        //                 updateErrorMessage(payload.message);
+        //             } else {
+        //                 // Update Dashboard with Course data
+        //                 courseList.push(coursePayload);
+        //             }
+        //         } catch (e) {
+        //             console.error(e);
+        //         }
+        //     }
+        //     console.log(courseList);
+        // } else return;  // If no courses, don't continue with rest of logic
 
-                        if(user.role === 'student') {
-                            renderStudentFrag();
-                        } else if(user.role === 'faculty') {
-                            renderFacultyFrag();
-                        } else {
-                            updateAlertMessage('Error: user type not found!', 'error');
-                        }
+        // dashboardHeaderRole.innerHTML = `| ${user.role} dashboard`;
+        // dashboardHeaderName.innerHTML = `${user.firstName} ${user.lastName} ` + dashboardHeaderRole.outerHTML;
 
-                    }
-                })
-                .catch(err => console.error(err));
+        // if(user.role === 'student') {
+        //     renderStudentFrag();
+        // } else if(user.role === 'faculty') {
+        //     renderFacultyFrag();
+        // } else {
+        //     updateAlertMessage('Error: user type not found!', 'error');
+        // }
 
-            // Append path to end of web address
-            // window.history.pushState('dashboard', 'Dashboard', '/dashboard');
-
-        });
 
     }
 
@@ -244,6 +296,38 @@ function DashboardComponent() {
             infoMsg.innerText = '';
         }
     }
+
+    this.render = function() {
+
+        if (!state.authUser) {
+            router.navigate('/login');
+            return;
+        }
+
+        DashboardComponent.prototype.injectStylesheet();
+        DashboardComponent.prototype.injectTemplate(() => {            
+
+            dashboardHeaderName = document.getElementById('dashboard-header-user-name');
+            dashboardHeaderRole = document.getElementById('dashboard-header-user-dashboard');
+
+            errorMsg = document.getElementById('error-msg');
+            warnMsg = document.getElementById('warn-msg');
+            infoMsg = document.getElementById('info-msg');
+
+            dashboardBody = document.getElementById('dashboard-body');
+            studentDashFrag = document.getElementById('student-dash-frag');
+            facultyDashFrag = document.getElementById('faculty-dash-frag');
+
+            initializeDashboard();
+
+            // Append path to end of web address
+            // window.history.pushState('dashboard', 'Dashboard', '/dashboard');
+
+        });
+
+    }
+
+    
 
 }
 

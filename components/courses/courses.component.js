@@ -142,38 +142,47 @@ function CoursesComponent() {
         scheduleModalBody.innerText = currentCourse.title + '\n' + currentCourse.deptShort + ' ' + currentCourse.courseNo + ' - ' + currentCourse.sectionNo; 
     }
 
-    async function addToSchedule() {
-        // Send fetch to Users Patch with currentUser and currentCourse
-        currentCourseHeader = {
-            courseDept: `${currentCourse.deptShort}`,
-            courseNo: `${currentCourse.courseNo}`,
-            sectionNo: `${currentCourse.sectionNo}`,
-            meetingTimes: `${currentCourse.meetingTimes}`
+    async function addToSchedule() {        
+        // Get Current User (For Schedule)
+        let currentUser = {};
+        try {
+            let currentUserResp = await fetch(`${env.apiUrl}/users?id=${state.authUser.id}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `${state.token}`
+                }
+            });
+            currentUser = await currentUserResp.json();
+        } catch (error) {
+            console.log(error);            
+            return;
         }
-        console.log(currentCourseHeader);
-        // authUser.schedule.append()
-        // try {
-        //     let resp = await fetch(`${env.apiUrl}/users?id=${state.authUser.id}`, {
-        //         method: 'PATCH',
-        //         headers: {
-        //             'Authorization': `${state.token}`
-        //         },
-        //         body: JSON.stringify(newCourse)
-        //     });
-        //     let payload = await resp.json();
-        //     if (resp.status != 200) {
-        //         console.log('ERroR');
-        //         createModalError.removeAttribute('hidden');
-        //         createModalError.style.color = 'red';
-        //         createModalError.innerText = 'ERROR: ' + payload.message;
-        //         return;
-        //     } 
-        // } catch (error) {
-        //     console.log(error);            
-        //     return;
-        // }
-        // // TODO: Currently sends user back to home, possibly even refresh session?
-        // location.reload(true);
+        let schedule = currentUser.schedule;
+        schedule.push(currentCourse);
+        let updatedUser = {
+            id: state.authUser.id,
+            schedule: schedule
+        }
+        console.log(JSON.stringify(updatedUser));
+        try {
+            let resp = await fetch(`${env.apiUrl}/users?id=${state.authUser.id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Authorization': state.token
+                },
+                body: JSON.stringify(updatedUser)
+            });
+            let payload = await resp.json();
+            if (resp.status != 200) {
+                console.log('ERroR');
+                return;
+            } 
+        } catch (error) {
+            console.log(error);            
+            return;
+        }
+        // TODO: Currently sends user back to home, possibly even refresh session?
+        location.reload(true);
     }
 
     // CRUD: CREATE
@@ -303,8 +312,8 @@ function CoursesComponent() {
             var button = document.createElement('button');
             button.id = element['id'];
             button.type = 'button';
-            button.classList.remove(...button.classList);
-            button.classList.add('btn', 'btn-info');
+            // button.classList.remove(...button.classList);
+            button.setAttribute('class', 'btn btn-danger')
             // Add Add Course button for students, Edit Course button for faculty
             if (state.authUser.role === 'faculty' || state.authUser.role === 'pendingFaculty') {    
                 button.innerHTML = 'Edit Course';
