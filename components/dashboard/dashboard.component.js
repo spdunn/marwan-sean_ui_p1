@@ -104,43 +104,6 @@ function DashboardComponent() {
             })
             .catch(err => console.error(err));
 
-        // let courseList = [];
-        // if (user.schedule.length > 0) {
-        //     console.log(user.schedule);
-        //     for (let course of user.schedule) {
-        //         console.log(course);
-        //         try {
-        //             var courseResp = await fetch(`${env.apiUrl}/courses?id=${course.id}`, {
-        //                 method: 'GET',
-        //                 headers: {
-        //                     'Content-Type': 'application/json'
-        //                 }
-        //             })
-        //             var coursePayload = await courseResp.json();
-        //             if (courseResp.header === 400) {
-        //                 updateErrorMessage(payload.message);
-        //             } else {
-        //                 // Update Dashboard with Course data
-        //                 courseList.push(coursePayload);
-        //             }
-        //         } catch (e) {
-        //             console.error(e);
-        //         }
-        //     }
-        //     console.log(courseList);
-        // } else return;  // If no courses, don't continue with rest of logic
-
-        // dashboardHeaderRole.innerHTML = `| ${user.role} dashboard`;
-        // dashboardHeaderName.innerHTML = `${user.firstName} ${user.lastName} ` + dashboardHeaderRole.outerHTML;
-
-        // if(user.role === 'student') {
-        //     renderStudentFrag();
-        // } else if(user.role === 'faculty') {
-        //     renderFacultyFrag();
-        // } else {
-        //     updateAlertMessage('Error: user type not found!', 'error');
-        // }
-
 
     }
 
