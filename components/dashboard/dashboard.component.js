@@ -110,23 +110,28 @@ function DashboardComponent() {
 
     async function dropCourseById(e) {
         let id = e.target.getAttribute('value');
-        for(let index in user.schedule) {
-            if(user.schedule[index].id === id) {
-                user.schedule.splice(index, 1);
-                break;
+
+        if(confirm(`Are you sure you want to drop: ${e.target.getAttribute('course')}`)) {
+
+            for(let index in user.schedule) {
+                if(user.schedule[index].id === id) {
+                    user.schedule.splice(index, 1);
+                    break;
+                }
             }
+
+            await fetch(`${env.apiUrl}/users`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `${state.token}`
+                },
+                body: JSON.stringify(user)
+            })
+
+            location.reload(true);
+
         }
-
-        await fetch(`${env.apiUrl}/users`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `${state.token}`
-            },
-            body: JSON.stringify(user)
-        })
-
-        location.reload(true);
 
     }
 
@@ -207,6 +212,7 @@ function DashboardComponent() {
             let deleteTd = document.createElement('td');
             let deleteBtn = document.createElement('button');
             deleteBtn.setAttribute('value', course.id);
+            deleteBtn.setAttribute('course', `${course.deptShort} ${course.courseNo}`);
             deleteBtn.setAttribute('type', 'button');
             deleteBtn.setAttribute('class', 'btn btn-danger');
             deleteBtn.innerText = 'drop';
@@ -223,6 +229,8 @@ function DashboardComponent() {
 
     function renderFacultyFrag() {
         facultyDashFrag.removeAttribute('hidden');
+
+        document.getElementById('nav-to-users').removeAttribute('hidden');
     }
 
     function updateAlertMessage(alertMsg, level) {

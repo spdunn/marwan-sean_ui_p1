@@ -1,7 +1,18 @@
 td {
+    max-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
     white-space: pre-wrap;
-    /* word-wrap: break-word; */
-    /* overflow-wrap: break-word; */
+}
+
+td.title_column {
+    width: 20%;
+}
+td.instructor_column {
+    width: 20%;
+}
+td.meeting_column {
+    width: 25%;
 }
 
 table {

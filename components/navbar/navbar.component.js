@@ -13,6 +13,7 @@ function NavbarComponent() {
     let homeNavElement;
     let logoutNavElement;
     let courseNavElement;
+    let userNavElement;
 
     function injectTemplate(callback) {
 
@@ -55,6 +56,7 @@ function NavbarComponent() {
         homeNavElement.setAttribute('hidden', 'true');
         logoutNavElement.setAttribute('hidden', 'true');
         courseNavElement.setAttribute('hidden', 'true');
+        userNavElement.setAttribute('hidden', 'true');
         router.navigate('/login');
     }
 
@@ -74,6 +76,9 @@ function NavbarComponent() {
             courseNavElement = document.getElementById('nav-to-courses');
             courseNavElement.addEventListener('click', navigateToView);
 
+            userNavElement = document.getElementById('nav-to-users');
+            userNavElement.addEventListener('click', navigateToView);
+
             logoutNavElement = document.getElementById('logout');
             logoutNavElement.addEventListener('click', logout);
 
@@ -83,12 +88,18 @@ function NavbarComponent() {
                 homeNavElement.removeAttribute('hidden');
                 logoutNavElement.removeAttribute('hidden');
                 courseNavElement.removeAttribute('hidden');
+                if(state.authUser.role === 'faculty') {
+                    userNavElement.removeAttribute('hidden');
+                } else {
+                    userNavElement.setAttribute('hidden', 'true');
+                }
             } else {
                 loginNavElement.removeAttribute('hidden');
                 registerNavElement.removeAttribute('hidden');
                 homeNavElement.setAttribute('hidden', 'true');
                 logoutNavElement.setAttribute('hidden', 'true');
                 courseNavElement.setAttribute('hidden', 'true');
+                userNavElement.setAttribute('hidden', 'true');
             }
 
         });
