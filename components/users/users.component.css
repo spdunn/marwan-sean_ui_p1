@@ -1,0 +1,30 @@
+#users-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    border-bottom: .1rem solid grey;
+}
+
+.container {
+    padding: 0;
+    margin: 0;
+}
+
+#users-body {
+    margin-top: 2rem;
+}
+
+div.cell-container {
+    max-height: 3rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+div.scroll {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    
+}
