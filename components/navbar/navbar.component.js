@@ -8,6 +8,9 @@ function NavbarComponent() {
     let templateHolder = '';
     let frag = 'components/navbar/navbar.component';
 
+    let loginNavElement;
+    let registerNavElement;
+    let homeNavElement;
     let logoutNavElement;
     let courseNavElement;
 
@@ -43,8 +46,13 @@ function NavbarComponent() {
 
     function logout() {
         console.log('Logging you out!');
+        state.authUser = '';
+        state.token = '';
         localStorage.clear();
         sessionStorage.clear();
+        loginNavElement.removeAttribute('hidden');
+        registerNavElement.removeAttribute('hidden');
+        homeNavElement.setAttribute('hidden', 'true');
         logoutNavElement.setAttribute('hidden', 'true');
         courseNavElement.setAttribute('hidden', 'true');
         router.navigate('/login');
@@ -53,20 +61,32 @@ function NavbarComponent() {
     this.render = function() {
         injectStylesheet();
         injectTemplate(() => {
-            document.getElementById('nav-to-login').addEventListener('click', navigateToView);
-            document.getElementById('nav-to-register').addEventListener('click', navigateToView);
-            document.getElementById('nav-to-dashboard').addEventListener('click', navigateToView);
-            courseNavElement = document.getElementById('nav-to-courses');
+            // document.getElementById('nav-to-dashboard').addEventListener('click', navigateToView);
 
+            loginNavElement = document.getElementById('nav-to-login');
+            loginNavElement.addEventListener('click', navigateToView);
+            registerNavElement = document.getElementById('nav-to-register');
+            registerNavElement.addEventListener('click', navigateToView);
+            
+            homeNavElement = document.getElementById('nav-to-dashboard-home');
+            homeNavElement.addEventListener('click', navigateToView);
+
+            courseNavElement = document.getElementById('nav-to-courses');
             courseNavElement.addEventListener('click', navigateToView);
 
             logoutNavElement = document.getElementById('logout');
             logoutNavElement.addEventListener('click', logout);
 
             if(state.authUser) {
+                loginNavElement.setAttribute('hidden', 'true');
+                registerNavElement.setAttribute('hidden', 'true');
+                homeNavElement.removeAttribute('hidden');
                 logoutNavElement.removeAttribute('hidden');
                 courseNavElement.removeAttribute('hidden');
             } else {
+                loginNavElement.removeAttribute('hidden');
+                registerNavElement.removeAttribute('hidden');
+                homeNavElement.setAttribute('hidden', 'true');
                 logoutNavElement.setAttribute('hidden', 'true');
                 courseNavElement.setAttribute('hidden', 'true');
             }

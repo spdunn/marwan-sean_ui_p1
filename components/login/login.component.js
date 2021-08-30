@@ -100,6 +100,8 @@ function LoginComponent() {
 
             document.getElementById('logout').removeAttribute('hidden');
             document.getElementById('nav-to-courses').removeAttribute('hidden');
+            document.getElementById('nav-to-login').setAttribute('hidden', 'true');
+            document.getElementById('nav-to-register').setAttribute('hidden', 'true');
     }
 
     this.render = function() {
