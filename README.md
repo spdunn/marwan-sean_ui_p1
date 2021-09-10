@@ -21,6 +21,7 @@ Technologies Used:
 Java, MongoDB, Maven, HTML, CSS, JavaScript, Bootstrap
 AWS EC2, AWS S3, AWS CodeBuild, AWS CodePipeline, Elastic Beanstalk
 REST, Postman, Agile-Scrum
+
 Maven Dependencies:
   JavaxServlet - version 4.0.1
   jsonwebtoken - version 0.9.0
