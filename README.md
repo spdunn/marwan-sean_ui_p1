@@ -5,7 +5,9 @@ SignMeUp is a course registration application that allows for users to easily vi
 Features:
 
 Users can register a new student account
+
 Users can login to an existing account
+
 Students can view their dashboard, which consists of course information for courses currently in the user's schedule
 
 Students can delete a course from their schedule
