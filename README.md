@@ -29,6 +29,8 @@ Faculty can delete a course from the database
 
 Security is maintained through JWTs
 
+
+
 Technologies Used:
 
 Java, MongoDB, Maven, HTML, CSS, JavaScript, Bootstrap
