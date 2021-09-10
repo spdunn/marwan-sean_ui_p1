@@ -49,3 +49,5 @@ Maven Dependencies:
   MongoDB Driver - version 4.2.3
 
 We employed the DevOps strategy for this project, which meant that each push to our dev branch would send our code to an AWS pipeline, which hosted our API on an Elastic Beanstalk, and our UI on an S3 bucket configured for static web hosting.
+
+Our API is hosted at https://github.com/batainem96/marwan_sean_api_p1.git
